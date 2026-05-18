@@ -50,8 +50,12 @@ jobs:
           );
           
           if (!matchArtifact) {
-            throw new Error("Artifact 'html-diff' could not be found.");
+            core.setOutput('artifact_found', 'false');
+            console.log("Artifact 'html-diff' could not be found. Exiting gracefully.");
+            return;
           }
+          
+          core.setOutput('artifact_found', 'true');
           
           let download = await github.rest.actions.downloadArtifact({
               owner: context.repo.owner,
@@ -69,8 +73,10 @@ jobs:
           fs.writeFileSync(path.join(temp, 'html-diff.zip'), Buffer.from(download.data));
 
     - name: 'Unzip artifact'
-      run: unzip "${{ runner.temp }}/artifacts/html-diff.zip" -d "${{ runner.temp }}/artifacts"
+      if: ${{ steps.pr_info.outputs.artifact_found == 'true' }}
+      run: unzip "${{ runner.temp }}/artifacts/html-diff.zip" -d "./"
     - name: Upload to Azure
+      if: ${{ steps.pr_info.outputs.artifact_found == 'true' }}
       uses: azure/cli@v2
       env:
         AZURE_STORAGE_ACCOUNT: ${{ secrets.ACCOUNT_NAME }}
@@ -78,12 +84,13 @@ jobs:
       with:
         inlineScript: |
           az storage blob upload \
-            --file "${{ runner.temp }}/artifacts/html-diff/index.html" \
+            --file "html-diff/index.html" \
             --container-name '$web' \
             --name "pr-${{ steps.pr_info.outputs.pr_number }}/index.html" \
             --content-type "text/html" \
             --auth-mode key
     - name: 'Update PR Description with Diff Link'
+      if: ${{ steps.pr_info.outputs.artifact_found == 'true' }}
       uses: actions/github-script@v8
       env:
         PR_NUMBER: ${{ steps.pr_info.outputs.pr_number }}
