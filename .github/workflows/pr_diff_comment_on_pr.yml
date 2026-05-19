@@ -75,20 +75,20 @@ jobs:
     - name: 'Unzip artifact'
       if: ${{ steps.pr_info.outputs.artifact_found == 'true' }}
       run: unzip "${{ runner.temp }}/artifacts/html-diff.zip" -d "html-diff"
-    - name: Upload to Azure
-      if: ${{ steps.pr_info.outputs.artifact_found == 'true' }}
-      uses: azure/cli@v2
-      env:
-        AZURE_STORAGE_ACCOUNT: ${{ secrets.ACCOUNT_NAME }}
-        AZURE_STORAGE_KEY: ${{ secrets.ACCOUNT_KEY }}
-      with:
-        inlineScript: |
-          az storage blob upload \
-            --file "html-diff/index.html" \
-            --container-name '$web' \
-            --name "pr-${{ steps.pr_info.outputs.pr_number }}/index.html" \
-            --content-type "text/html" \
-            --auth-mode key
+    # - name: Upload to Azure
+    #   if: ${{ steps.pr_info.outputs.artifact_found == 'true' }}
+    #   uses: azure/cli@v2
+    #   env:
+    #     AZURE_STORAGE_ACCOUNT: ${{ secrets.ACCOUNT_NAME }}
+    #     AZURE_STORAGE_KEY: ${{ secrets.ACCOUNT_KEY }}
+    #   with:
+    #     inlineScript: |
+    #       az storage blob upload \
+    #         --file "html-diff/index.html" \
+    #         --container-name '$web' \
+    #         --name "pr-${{ steps.pr_info.outputs.pr_number }}/index.html" \
+    #         --content-type "text/html" \
+    #         --auth-mode key
     - name: 'Update PR Description with Diff Link'
       if: ${{ steps.pr_info.outputs.artifact_found == 'true' }}
       uses: actions/github-script@v8
