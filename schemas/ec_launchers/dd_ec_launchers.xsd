@@ -7,7 +7,7 @@
 			<xs:documentation>Description of wave polarization</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="o_mode_fractions">
+			<xs:element name="o_mode_fractionss">
 				<xs:annotation>
 					<xs:documentation>Fraction of EC beam power launched in ordinary (O) mode. If all power is launched in ordinary mode (O-mode), o_mode_fraction = 1.0. If all  power is launched in extraordinary mode (X-mode), o_mode_fraction = 0.0</xs:documentation>
 					<xs:appinfo>
