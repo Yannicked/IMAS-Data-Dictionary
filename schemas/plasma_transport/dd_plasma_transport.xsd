@@ -190,7 +190,7 @@
 	</xs:complexType>
 	<xs:complexType name="plasma_transport_model_2_energy">
 		<xs:annotation>
-			<xs:documentation>Transport coefficients for energy equations. Coordinates two levels above.</xs:documentation>
+			<xs:documentation>Transport coefficients for energy equations. Coordinates two levels above. Test</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="d">
