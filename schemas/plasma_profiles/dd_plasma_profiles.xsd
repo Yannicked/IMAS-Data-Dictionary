@@ -16,7 +16,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="ids_properties"/>
-				<xs:element name="vacuum_toroidal_field" type="b_tor_vacuum_1">
+				<xs:element name="this is a test" type="b_tor_vacuum_1">
 					<xs:annotation>
 						<xs:documentation>Characteristics of the vacuum toroidal field (used in rho_tor definition and in the normalization of current densities)</xs:documentation>
 						<xs:appinfo>
